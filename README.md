@@ -12,7 +12,7 @@ The variables that can be passed to this role and a brief description about them
 	# Node type it can be vrouter or centralpoint
 	INDIGOVR_NODE_TYPE: vrouter
 	# In case of vrouter node the IP of the centralpoint
-	INDIGOVR_CENTRALPOINT_IP: 78.128.250.216
+	INDIGOVR_CENTRALPOINT_IP: 10.0.0.1
 	# Node certificate
 	INDIGOVR_CERT: |
 	    -----BEGIN CERTIFICATE-----
@@ -35,7 +35,13 @@ This an example of how to install the application:
 In the "vrouter" node:
 ```yml
   roles:
-    - { role: 'indigo-dc.indigovr' }
+    - { role: 'indigo-dc.indigovr', INDIGOVR_CENTRALPOINT_IP: 'centralpoint_ip'}
+```
+
+In the "centralpoint" node:
+```yml
+  roles:
+    - { role: 'indigo-dc.indigovr', INDIGOVR_NODE_TYPE: 'centralpoint' }
 ```
 
 License
