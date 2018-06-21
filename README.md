@@ -35,13 +35,34 @@ This an example of how to install the application:
 In the "vrouter" node:
 ```yml
   roles:
-    - { role: 'indigo-dc.indigovr', INDIGOVR_CENTRALPOINT_IP: 'centralpoint_ip'}
+  - role: indigo-dc.indigovr
+    INDIGOVR_CENTRALPOINT_IP: 'centralpoint_ip'
+    INDIGOVR_CERT: |
+        -----BEGIN CERTIFICATE-----
+        -----END CERTIFICATE-----
+    INDIGOVR_KEY:  |
+        -----BEGIN PRIVATE KEY-----
+        -----END PRIVATE KEY-----
+    INDIGOVR_CA: | 
+        -----BEGIN CERTIFICATE-----
+        -----END CERTIFICATE-----
+
 ```
 
 In the "centralpoint" node:
 ```yml
   roles:
-    - { role: 'indigo-dc.indigovr', INDIGOVR_NODE_TYPE: 'centralpoint' }
+  - role: indigo-dc.indigovr
+    INDIGOVR_NODE_TYPE: 'centralpoint'
+    INDIGOVR_CERT: |
+        -----BEGIN CERTIFICATE-----
+        -----END CERTIFICATE-----
+    INDIGOVR_KEY:  |
+        -----BEGIN PRIVATE KEY-----
+        -----END PRIVATE KEY-----
+    INDIGOVR_CA: | 
+        -----BEGIN CERTIFICATE-----
+        -----END CERTIFICATE-----
 ```
 
 License
