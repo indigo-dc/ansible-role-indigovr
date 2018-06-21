@@ -2,7 +2,6 @@
   apt:
     pkg: openvpn
     state: present
-    update_cache: true
   notify:
     - Enable and start OpenVPN service
 

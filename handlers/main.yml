@@ -1,6 +1,6 @@
 - name: Enable and start OpenVPN service
   service:
-    name: "openvpn@{{ openvpn_name }}"
+    name: "openvpn@{{ INDIGOVR_NODE_TYPE }}"
     enabled: yes
     state: restarted
   when:
