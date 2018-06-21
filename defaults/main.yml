@@ -1,0 +1,16 @@
+# Node type it can be vrouter or centralpoint
+INDIGOVR_NODE_TYPE: vrouter
+# In case of vrouter node the IP of the centralpoint
+INDIGOVR_CENTRALPOINT_IP: 78.128.250.216
+# Node certificate
+INDIGOVR_CERT: |
+    -----BEGIN CERTIFICATE-----
+    -----END CERTIFICATE-----
+# Node key
+INDIGOVR_KEY:  |
+    -----BEGIN PRIVATE KEY-----
+    -----END PRIVATE KEY-----
+# CA certificate
+INDIGOVR_CA: | 
+    -----BEGIN CERTIFICATE-----
+    -----END CERTIFICATE-----

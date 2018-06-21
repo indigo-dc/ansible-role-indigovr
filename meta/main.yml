@@ -1,0 +1,18 @@
+galaxy_info:
+  author: Miguel Caballer
+  description: Install INDIGO-DC Virtual Router
+  company:  INDIGO-DataCloud
+  license: Apache
+  min_ansible_version: 2.0
+  platforms:
+  - name: Ubuntu
+    versions:
+    - xenial
+    - bionic
+  - name: Debian
+    versions:
+    - 9
+  galaxy_tags:
+    - VirtualRouter
+    - network
+dependencies: []

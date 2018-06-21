@@ -1,0 +1,21 @@
+---
+- name: Copy certificate to OpenVPN
+  copy:
+    content: "{{ INDIGOVR_CERT }}"
+    dest: "/etc/openvpn/certs/vrouter.crt"
+  notify:
+    - Enable and start OpenVPN service
+
+- name: Copy key to OpenVPN
+  copy:
+    content: "{{ INDIGOVR_KEY }}"
+    dest: "/etc/openvpn/certs/vrouter.key"
+  notify:
+    - Enable and start OpenVPN service
+
+- name: Copy CA certificate to OpenVPN
+  copy:
+    content: "{{ INDIGOVR_CA }}"
+    dest: "/etc/openvpn/certs/ca.crt"
+  notify:
+    - Enable and start OpenVPN service

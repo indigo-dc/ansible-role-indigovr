@@ -1,0 +1,49 @@
+---
+- name: Create custom Diffie-Hellman parameters
+  shell: openssl dhparam -out /etc/openvpn/certs/dh2048.pem 2048
+  args:
+    creates: /etc/openvpn/certs/dh2048.pem
+  notify:
+    -  Enable and start OpenVPN service
+
+- name: Create CRL file for OpenVPN
+  copy:
+    content: ""
+    dest: /etc/openvpn/crl.pem
+    force: no
+    owner: root
+    group: root
+    mode: 0640
+  notify:
+    -  Enable and start OpenVPN service
+
+- name: Create client configuration directory
+  file:
+    path: /etc/openvpn/ccd
+    state: directory
+    mode: 0700
+    owner: root
+    group: root
+  notify:
+    -  Enable and start OpenVPN service
+
+- name: Copy certificate to OpenVPN
+  copy:
+    content: "{{ INDIGOVR_CERT }}"
+    dest: "/etc/openvpn/certs/CENTRALPOINT.crt"
+  notify:
+    -  Enable and start OpenVPN service
+
+- name: Copy key to OpenVPN
+  copy:
+    content: "{{ INDIGOVR_KEY }}"
+    dest: "/etc/openvpn/certs/CENTRALPOINT.key"
+  notify:
+    -  Enable and start OpenVPN service
+
+- name: Copy CA certificate to OpenVPN
+  copy:
+    content: "{{ INDIGOVR_CA }}"
+    dest: "/etc/openvpn/certs/ca.crt"
+  notify:
+    -  Enable and start OpenVPN service

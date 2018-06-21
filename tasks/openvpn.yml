@@ -1,0 +1,33 @@
+- name: Install OpenVPN package
+  apt:
+    pkg: openvpn
+    state: present
+    update_cache: true
+  notify:
+    - Enable and start OpenVPN service
+
+- name: Enable IP forwarding
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 0
+    sysctl_set: yes
+  when:
+    - ansible_virtualization_type != "docker"
+
+- name: Create certs directory
+  file:
+    path: /etc/openvpn/certs
+    state: directory
+    mode: 0700
+    owner: root
+    group: root
+
+- name: Copy OpenVPN configuration
+  template:
+    src: "{{ INDIGOVR_NODE_TYPE }}.conf.j2"
+    dest: "/etc/openvpn/{{ INDIGOVR_NODE_TYPE }}.conf"
+    owner: root
+    group: root
+    mode: 0600
+  notify:
+    - Enable and start OpenVPN service

@@ -1,0 +1,13 @@
+---
+# Add a fast check to speed reconfiguration
+#- stat: path=/etc/ld.so.conf.d/caffe.conf
+#  register: caffe_installed
+
+#- include: install.yml
+#  when: not caffe_installed.stat.exists
+
+- name: Include OpenVPN recipes
+  include: openvpn.yml
+
+- name: Include "{{INDIGOVR_NODE_TYPE}}" recipe
+  include: "{{INDIGOVR_NODE_TYPE}}.yml"
