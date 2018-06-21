@@ -32,7 +32,7 @@ Example Playbook
 
 This an example of how to install the application:
 
-In the "Worker Nodes"
+In the "vrouter" node:
 ```yml
   roles:
     - { role: 'indigo-dc.indigovr' }
