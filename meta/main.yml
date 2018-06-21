@@ -11,7 +11,7 @@ galaxy_info:
     - bionic
   - name: Debian
     versions:
-    - 9
+    - stretch
   galaxy_tags:
     - VirtualRouter
     - network
