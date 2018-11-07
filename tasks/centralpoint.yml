@@ -18,7 +18,7 @@
 
 - name: Copy CA certificate to OpenVPN
   copy:
-    content: "{{ INDIGOVR_CA_DIR }}/ca.crt"
+    src: "{{ INDIGOVR_CA_DIR }}/ca.crt"
     dest: "{{ INDIGOVR_CERT_DIR }}/ca.crt"
   notify:
     -  Enable and start OpenVPN service
