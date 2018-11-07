@@ -12,7 +12,7 @@
 
 - name: Copy OpenSSL configuration
   copy:
-    src: openssl/files/openssl-csr.cnf
+    src: openssl-csr.cnf
     dest: "{{ INDIGOVR_CERT_DIR }}/openssl.cnf"
     owner: root
     group: root
