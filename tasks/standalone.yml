@@ -1,0 +1,29 @@
+---
+- name: CSR
+  include: openssl_csr.yml
+
+- name: Copy CSR to CA
+  copy:
+    src: "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.csr"
+    dest: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.csr"
+  delegate_to: "{{ INDIGOVR_CENTRALPOINT_IP }}"
+
+- name: Sign certificate
+  shell: openssl ca -config "{{ INDIGOVR_CA_DIR }}/openssl.cnf" -extensions usr_cert -days 365 -notext -batch -md sha512 -in "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.csr" -out "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
+  args:
+    creates: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
+  delegate_to: "{{ INDIGOVR_CENTRALPOINT_IP }}"
+
+- name: Copy certificate to OpenVPN
+  fetch:
+    src: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
+    dest: "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.crt"
+    flat: yes
+  delegate_to: "{{ INDIGOVR_CENTRALPOINT_IP }}"
+
+- name: Copy CA certificate to OpenVPN
+  fetch:
+    src: "{{ INDIGOVR_CA_DIR }}/ca.crt"
+    dest: "{{ INDIGOVR_CERT_DIR }}/ca.crt"
+    flat: yes
+  delegate_to: "{{ INDIGOVR_CENTRALPOINT_IP }}"
