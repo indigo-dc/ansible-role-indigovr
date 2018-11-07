@@ -12,6 +12,7 @@
     sysctl_set: yes
   when:
     - ansible_virtualization_type != "docker"
+    - INDIGOVR_NODE_TYPE != "standalone"
 
 - name: Create certs directory
   file:

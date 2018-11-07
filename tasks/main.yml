@@ -1,10 +1,7 @@
 ---
-# Add a fast check to speed reconfiguration
-#- stat: path=/etc/ld.so.conf.d/caffe.conf
-#  register: caffe_installed
-
-#- include: install.yml
-#  when: not caffe_installed.stat.exists
+- name: Include CentOS recipes
+  include: centos.yml
+  when: ansible_distribution == 'CentOS'
 
 - name: Include OpenVPN recipes
   include: openvpn.yml

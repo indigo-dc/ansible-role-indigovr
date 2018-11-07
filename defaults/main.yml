@@ -1,16 +1,7 @@
-# Node type it can be vrouter or centralpoint
-INDIGOVR_NODE_TYPE: vrouter
+# Node type it can be centralpoint, vrouter or standalone
+INDIGOVR_NODE_TYPE: standalone
 # In case of vrouter node the IP of the centralpoint
 INDIGOVR_CENTRALPOINT_IP: 127.0.0.1
-# Node certificate
-INDIGOVR_CERT: |
-    -----BEGIN CERTIFICATE-----
-    -----END CERTIFICATE-----
-# Node key
-INDIGOVR_KEY:  |
-    -----BEGIN PRIVATE KEY-----
-    -----END PRIVATE KEY-----
-# CA certificate
-INDIGOVR_CA: | 
-    -----BEGIN CERTIFICATE-----
-    -----END CERTIFICATE-----
+INDIGOVR_CERT_DIR: /etc/openvpn/certs
+INDIGOVR_CERT_NAME: "INDIGOVR-{{ ansible_fqdn }}" 
+INDIGOVR_CA_DIR: /root/CA
