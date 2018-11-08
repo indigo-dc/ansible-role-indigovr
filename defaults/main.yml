@@ -5,6 +5,6 @@ INDIGOVR_CENTRALPOINT_IP: 127.0.0.1
 # Where to store certificates for OpenVPN
 INDIGOVR_CERT_DIR: /etc/openvpn/certs
 # Certificate filename
-INDIGOVR_CERT_NAME: "INDIGOVR-{{ ansible_fqdn }}" 
+INDIGOVR_CERT_NAME: "INDIGOVR-{{ INDIGOVR_NODE_TYPE}}-{{ ansible_fqdn }}"
 # CA directory
 INDIGOVR_CA_DIR: /root/CA

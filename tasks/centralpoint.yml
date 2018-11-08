@@ -42,7 +42,7 @@
     dest: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.csr"
 
 - name: Sign certificate
-  shell: openssl ca -config "{{ INDIGOVR_CA_DIR }}/openssl.cnf" -extensions server -days 365 -notext -batch -md sha512 -in "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.csr" -out "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
+  shell: openssl ca -config "{{ INDIGOVR_CA_DIR }}/openssl.cnf" -extensions server -notext -batch -in "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.csr" -out "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
   args:
     creates: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
 

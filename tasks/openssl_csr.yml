@@ -11,15 +11,15 @@
     group: root
 
 - name: Copy OpenSSL configuration
-  copy:
-    src: openssl-csr.cnf
+  template:
+    src: openssl-csr.cnf.j2
     dest: "{{ INDIGOVR_CERT_DIR }}/openssl.cnf"
     owner: root
     group: root
     mode: 0600
 
 - name:  Create CSR
-  shell: openssl req -config "{{ INDIGOVR_CERT_DIR }}/openssl.cnf" -key "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.key" -new -sha512 -out "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.csr" -subj "/CN={{ ansible_fqdn }}/"
+  shell: openssl req -config "{{ INDIGOVR_CERT_DIR }}/openssl.cnf" -key "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.key" -new -out "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.csr"
   args:
     creates: "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.csr"
 
