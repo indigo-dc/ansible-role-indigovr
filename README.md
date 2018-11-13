@@ -7,25 +7,7 @@ Install INDIGO-DC Virtual Router [1].
 Role Variables
 --------------
 
-The variables that can be passed to this role and a brief description about them are as follows:
-
-	# Node type it can be vrouter or centralpoint
-	INDIGOVR_NODE_TYPE: vrouter
-	# In case of vrouter node the IP of the centralpoint
-	INDIGOVR_CENTRALPOINT_IP: 10.0.0.1
-	# Node certificate
-	INDIGOVR_CERT: |
-	    -----BEGIN CERTIFICATE-----
-	    -----END CERTIFICATE-----
-	# Node key
-	INDIGOVR_KEY:  |
-	    -----BEGIN PRIVATE KEY-----
-	    -----END PRIVATE KEY-----
-	# CA certificate
-	INDIGOVR_CA: | 
-	    -----BEGIN CERTIFICATE-----
-	    -----END CERTIFICATE-----
-
+Description of all the variables that can be passed to this role is along their default values in defaults/main.yml.
 
 Example Playbook
 ----------------
@@ -36,17 +18,16 @@ In the "vrouter" node:
 ```yml
   roles:
   - role: indigo-dc.indigovr
+    INDIGOVR_NODE_TYPE: vrouter
     INDIGOVR_CENTRALPOINT_IP: 'centralpoint_ip'
-    INDIGOVR_CERT: |
-        -----BEGIN CERTIFICATE-----
-        -----END CERTIFICATE-----
-    INDIGOVR_KEY:  |
-        -----BEGIN PRIVATE KEY-----
-        -----END PRIVATE KEY-----
-    INDIGOVR_CA: | 
-        -----BEGIN CERTIFICATE-----
-        -----END CERTIFICATE-----
+```
 
+In the "standalone" node:
+```yml
+  roles:
+  - role: indigo-dc.indigovr
+    INDIGOVR_NODE_TYPE: standalone
+    INDIGOVR_CENTRALPOINT_IP: 'centralpoint_ip'
 ```
 
 In the "centralpoint" node:
@@ -54,15 +35,6 @@ In the "centralpoint" node:
   roles:
   - role: indigo-dc.indigovr
     INDIGOVR_NODE_TYPE: 'centralpoint'
-    INDIGOVR_CERT: |
-        -----BEGIN CERTIFICATE-----
-        -----END CERTIFICATE-----
-    INDIGOVR_KEY:  |
-        -----BEGIN PRIVATE KEY-----
-        -----END PRIVATE KEY-----
-    INDIGOVR_CA: | 
-        -----BEGIN CERTIFICATE-----
-        -----END CERTIFICATE-----
 ```
 
 License

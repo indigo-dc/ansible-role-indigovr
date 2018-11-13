@@ -1,19 +1,25 @@
 ---
+- name: Include CA recipes
+  include: ca.yml
+
 - name: Create custom Diffie-Hellman parameters
-  shell: openssl dhparam -out /etc/openvpn/certs/dh2048.pem 2048
+  shell: "openssl dhparam -out {{ INDIGOVR_CERT_DIR }}/dh2048.pem 2048"
   args:
-    creates: /etc/openvpn/certs/dh2048.pem
+    creates: "{{ INDIGOVR_CERT_DIR }}/dh2048.pem"
   notify:
     -  Enable and start OpenVPN service
 
-- name: Create CRL file for OpenVPN
+- name: Copy CRL to OpenVPN
   copy:
-    content: ""
-    dest: /etc/openvpn/crl.pem
-    force: no
-    owner: root
-    group: root
-    mode: 0640
+    src: "{{ INDIGOVR_CA_DIR }}/crl.pem"
+    dest: "{{ INDIGOVR_CERT_DIR }}/crl.pem"
+  notify:
+    -  Enable and start OpenVPN service
+
+- name: Copy CA certificate to OpenVPN
+  copy:
+    src: "{{ INDIGOVR_CA_DIR }}/ca.crt"
+    dest: "{{ INDIGOVR_CERT_DIR }}/ca.crt"
   notify:
     -  Enable and start OpenVPN service
 
@@ -27,23 +33,24 @@
   notify:
     -  Enable and start OpenVPN service
 
+- name: CSR
+  include: openssl_csr.yml
+
+- name: Copy CSR to CA
+  copy:
+    src: "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.csr"
+    dest: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.csr"
+
+- name: Sign certificate
+  shell: openssl ca -config "{{ INDIGOVR_CA_DIR }}/openssl.cnf" -extensions server -notext -batch -in "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.csr" -out "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
+  args:
+    creates: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
+
+
 - name: Copy certificate to OpenVPN
   copy:
-    content: "{{ INDIGOVR_CERT }}"
-    dest: "/etc/openvpn/certs/CENTRALPOINT.crt"
+    src: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
+    dest: "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.crt"
   notify:
     -  Enable and start OpenVPN service
 
-- name: Copy key to OpenVPN
-  copy:
-    content: "{{ INDIGOVR_KEY }}"
-    dest: "/etc/openvpn/certs/CENTRALPOINT.key"
-  notify:
-    -  Enable and start OpenVPN service
-
-- name: Copy CA certificate to OpenVPN
-  copy:
-    content: "{{ INDIGOVR_CA }}"
-    dest: "/etc/openvpn/certs/ca.crt"
-  notify:
-    -  Enable and start OpenVPN service

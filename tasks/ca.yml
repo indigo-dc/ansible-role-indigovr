@@ -1,0 +1,57 @@
+- name: Create CA directory
+  file:
+    path: "{{ INDIGOVR_CA_DIR }}"
+    state: directory
+    mode: 0700
+    owner: root
+    group: root
+
+- name: Create signed certificates directory
+  file:
+    path: "{{ INDIGOVR_CA_DIR }}/certs"
+    state: directory
+    mode: 0700
+    owner: root
+    group: root
+
+- name: Create signed certificate index
+  copy:
+    content: ""
+    dest: "{{ INDIGOVR_CA_DIR }}/index.txt"
+    force: no
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Create signed certificate serial
+  copy:
+    content: "1000"
+    dest: "{{ INDIGOVR_CA_DIR }}/serial"
+    force: no
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Copy OpenSSL CA configuration
+  copy:
+    src: openssl-ca.cnf
+    dest: "{{ INDIGOVR_CA_DIR }}/openssl.cnf"
+    owner: root
+    group: root
+    mode: 0600
+
+- name:  Create CA privkey
+  shell: openssl genrsa -out "{{ INDIGOVR_CA_DIR }}/ca.key" 4096
+  args:
+    creates: "{{ INDIGOVR_CA_DIR }}/ca.key"
+
+- name:  Create CA pubkey
+  shell: openssl req -config "{{ INDIGOVR_CA_DIR }}/openssl.cnf" -key "{{ INDIGOVR_CA_DIR }}/ca.key" -new -x509 -days 3650 -extensions v3_ca -out "{{ INDIGOVR_CA_DIR }}/ca.crt" -subj "/CN={{ ansible_fqdn }}-CA/"
+  args:
+   creates: "{{ INDIGOVR_CA_DIR }}/ca.crt"
+
+- name:  Create CRL
+  shell: openssl ca -config "{{ INDIGOVR_CA_DIR }}/openssl.cnf" -gencrl -out "{{ INDIGOVR_CA_DIR }}/crl.pem"
+  args:
+   creates: "{{ INDIGOVR_CA_DIR }}/crl.pem"
+
