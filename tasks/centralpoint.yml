@@ -13,6 +13,7 @@
   copy:
     src: "{{ INDIGOVR_CA_DIR }}/crl.pem"
     dest: "{{ INDIGOVR_CERT_DIR }}/crl.pem"
+    remote_src: yes
   notify:
     -  Enable and start OpenVPN service
 
@@ -20,6 +21,7 @@
   copy:
     src: "{{ INDIGOVR_CA_DIR }}/ca.crt"
     dest: "{{ INDIGOVR_CERT_DIR }}/ca.crt"
+    remote_src: yes
   notify:
     -  Enable and start OpenVPN service
 
@@ -40,17 +42,18 @@
   copy:
     src: "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.csr"
     dest: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.csr"
+    remote_src: yes
 
 - name: Sign certificate
   shell: openssl ca -config "{{ INDIGOVR_CA_DIR }}/openssl.cnf" -extensions server -notext -batch -in "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.csr" -out "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
   args:
     creates: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
 
-
 - name: Copy certificate to OpenVPN
   copy:
     src: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
     dest: "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.crt"
+    remote_src: yes
   notify:
     -  Enable and start OpenVPN service
 
