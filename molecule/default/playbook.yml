@@ -1,0 +1,6 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+  - role: ansible-role-indigovr
+    INDIGOVR_NODE_TYPE: centralpoint
