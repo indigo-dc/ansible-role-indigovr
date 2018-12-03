@@ -9,10 +9,18 @@
   notify:
     -  Enable and start OpenVPN service
 
+- name: Fix permissions to Diffie-Hellman parameters
+  file:
+    path: "{{ INDIGOVR_CERT_DIR }}/dh2048.pem"
+    group: "{{ INDIGOVR_USER }}"
+    mode: 0644
+
 - name: Copy CRL to OpenVPN
   copy:
     src: "{{ INDIGOVR_CA_DIR }}/crl.pem"
     dest: "{{ INDIGOVR_CERT_DIR }}/crl.pem"
+    group: "{{ INDIGOVR_USER }}"
+    mode: 0644
     remote_src: yes
   notify:
     -  Enable and start OpenVPN service
@@ -21,6 +29,8 @@
   copy:
     src: "{{ INDIGOVR_CA_DIR }}/ca.crt"
     dest: "{{ INDIGOVR_CERT_DIR }}/ca.crt"
+    group: "{{ INDIGOVR_USER }}"
+    mode: 0644
     remote_src: yes
   notify:
     -  Enable and start OpenVPN service
@@ -29,9 +39,9 @@
   file:
     path: /etc/openvpn/ccd
     state: directory
-    mode: 0700
+    mode: 0755
     owner: root
-    group: root
+    group: "{{ INDIGOVR_USER }}"
   notify:
     -  Enable and start OpenVPN service
 
@@ -53,6 +63,8 @@
   copy:
     src: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
     dest: "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.crt"
+    group: "{{ INDIGOVR_USER }}"
+    mode: 0644
     remote_src: yes
   notify:
     -  Enable and start OpenVPN service

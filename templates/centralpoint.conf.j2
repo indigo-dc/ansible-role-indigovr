@@ -7,8 +7,8 @@ mode server
 persist-key
 persist-tun
 tls-server
-user nobody
-group nogroup
+user {{ INDIGOVR_USER }}
+group {{ INDIGOVR_USER }}
 dev tun
 topology p2p
 proto udp

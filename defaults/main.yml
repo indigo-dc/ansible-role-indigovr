@@ -8,3 +8,5 @@ INDIGOVR_CERT_DIR: /etc/openvpn/certs
 INDIGOVR_CERT_NAME: "INDIGOVR-{{ INDIGOVR_NODE_TYPE}}-{{ ansible_fqdn }}"
 # CA directory
 INDIGOVR_CA_DIR: /root/CA
+#OpenVPN Unix user
+INDIGOVR_USER: deepvpn

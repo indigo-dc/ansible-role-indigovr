@@ -5,6 +5,11 @@
   notify:
     - Enable and start OpenVPN service
 
+- name: "Create {{ INDIGOVR_USER }} user"
+  user:
+    name: "{{ INDIGOVR_USER }}"
+    state: present
+
 - name: Enable IP forwarding
   sysctl:
     name: net.ipv4.ip_forward
@@ -18,9 +23,9 @@
   file:
     path: /etc/openvpn/certs
     state: directory
-    mode: 0700
+    mode: 0750
     owner: root
-    group: root
+    group: "{{ INDIGOVR_USER }}"
 
 - name: Copy OpenVPN configuration
   template:

@@ -45,8 +45,12 @@
   copy:
     src: "/tmp/._indigovr_tmp_{{ INDIGOVR_CERT_NAME }}.crt"
     dest: "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.crt"
+    group: "{{ INDIGOVR_USER }}"
+    mode: 0644
 
 - name: Copy CA certificate to OpenVPN
   copy:
     src: "/tmp/.indigovr_tmp_ca.crt"
     dest: "{{ INDIGOVR_CERT_DIR }}/ca.crt"
+    group: "{{ INDIGOVR_USER }}"
+    mode: 0644
