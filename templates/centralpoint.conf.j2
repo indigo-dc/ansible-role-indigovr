@@ -35,7 +35,11 @@ crl-verify /etc/openvpn/certs/crl.pem
 
 # --- LOG files
 log-append /var/log/openvpn
+{% if ansible_distribution == 'CentOS' %}
+status /var/run/openvpn-server/vpn.status 10
+{% else %}
 status /var/run/openvpn/vpn.status 10
+{% endif %}
 
 # --- IPv4 routing
 route 192.168.1.0 255.255.255.0
