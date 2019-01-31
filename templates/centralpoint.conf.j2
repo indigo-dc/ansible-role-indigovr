@@ -16,8 +16,7 @@ port 1194
 comp-lzo
 
 # --- IP addresses for VPN
-ifconfig 192.168.255.1 255.255.255.0
-server 192.168.255.0 255.255.255.0
+server {{ INDIGOVR_VPN_PREFIX }}.0 255.255.255.0
 ifconfig-pool-persist ipp.txt
 
 # --- Client specs
@@ -27,11 +26,11 @@ client-to-client
 client-config-dir /etc/openvpn/ccd
 
 # --- Certificates
-ca /etc/openvpn/certs/ca.crt
-cert /etc/openvpn/certs/{{ INDIGOVR_CERT_NAME }}.crt
-key /etc/openvpn/certs/{{ INDIGOVR_CERT_NAME }}.key
-dh /etc/openvpn/certs/dh2048.pem
-crl-verify /etc/openvpn/certs/crl.pem
+ca {{ INDIGOVR_CERT_DIR }}/ca.crt
+cert {{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.crt
+key {{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.key
+dh {{ INDIGOVR_CERT_DIR }}/dh2048.pem
+crl-verify {{ INDIGOVR_CERT_DIR }}/crl.pem
 
 # --- LOG files
 log-append /var/log/openvpn
@@ -42,9 +41,7 @@ status /var/run/openvpn/vpn.status 10
 {% endif %}
 
 # --- IPv4 routing
-route 192.168.1.0 255.255.255.0
-route 10.4.2.0 255.255.255.0
-route 10.0.1.0 255.255.255.0
+route {{ INDIGOVR_SUBNET }} 255.255.0.0 {{ INDIGOVR_VPN_PREFIX }}.2
 
 push "route-gateway 192.168.255.1"
-push "route 192.168.0.0 255.255.0.0 vpn_gateway"
+push "route {{ INDIGOVR_SUBNET }} 255.255.0.0 vpn_gateway"
