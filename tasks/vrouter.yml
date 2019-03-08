@@ -23,6 +23,16 @@
   delegate_to: "{{ INDIGOVR_CENTRALPOINT_IP }}"
   become: true
 
+- name: Create client configuration
+  template:
+    src: ccd-vrouter.j2
+    dest: "/etc/openvpn/ccd/{{ ansible_fqdn }}"
+    owner: root
+    group: root
+    mode: 0644
+  delegate_to: "{{ INDIGOVR_CENTRALPOINT_IP }}"
+  become: true
+
 - name: Fetch certificate
   fetch:
     src: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"

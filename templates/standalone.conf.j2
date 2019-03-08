@@ -9,6 +9,6 @@ persist-tun
 comp-lzo
 verb 3
 mute 20
-ca /etc/openvpn/certs/ca.crt
-cert /etc/openvpn/certs/{{ INDIGOVR_CERT_NAME }}.crt
-key /etc/openvpn/certs/{{ INDIGOVR_CERT_NAME }}.key
+ca {{ INDIGOVR_CERT_DIR }}/ca.crt
+cert {{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.crt
+key {{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.key

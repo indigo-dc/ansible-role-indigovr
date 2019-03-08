@@ -1,6 +1,6 @@
 - name: Install OpenVPN package
-  apt:
-    pkg: openvpn
+  package:
+    name: openvpn
     state: present
   notify:
     - Enable and start OpenVPN service
@@ -13,11 +13,21 @@
 - name: Enable IP forwarding
   sysctl:
     name: net.ipv4.ip_forward
-    value: 0
+    value: 1
     sysctl_set: yes
   when:
     - ansible_virtualization_type != "docker"
     - INDIGOVR_NODE_TYPE != "standalone"
+
+- name: Remove default route IndigoVR route
+  shell: "ip r del {{ INDIGOVR_SUBNET }}/16 via {{ ansible_default_ipv4.address }}"
+  register: route_result
+  changed_when: route_result.rc == 0
+  failed_when: route_result.rc != 0 and route_result.rc != 2
+  when:
+    - INDIGOVR_NODE_TYPE != "standalone"
+  notify:
+    - Enable and start OpenVPN service
 
 - name: Create certs directory
   file:
