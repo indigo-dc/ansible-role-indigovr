@@ -23,6 +23,14 @@
   delegate_to: "{{ INDIGOVR_CENTRALPOINT_IP }}"
   become: true
 
+- name: Create client configuration dir
+  file:
+    path: /etc/openvpn/ccd
+    state: directory
+    recurse: yes
+  delegate_to: "{{ INDIGOVR_CENTRALPOINT_IP }}"
+  become: true
+
 - name: Create client configuration
   template:
     src: ccd-vrouter.j2
