@@ -8,3 +8,11 @@
 
 - name: Include "{{INDIGOVR_NODE_TYPE}}" recipe
   include: "{{INDIGOVR_NODE_TYPE}}.yml"
+
+- name: Enable and start OpenVPN service
+  service:
+    name: "openvpn@{{ INDIGOVR_NODE_TYPE }}"
+    enabled: yes
+    state: started
+  when:
+    - ansible_virtualization_type != "docker"
