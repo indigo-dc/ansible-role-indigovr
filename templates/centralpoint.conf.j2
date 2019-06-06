@@ -43,5 +43,5 @@ status /var/run/openvpn/vpn.status 10
 # --- IPv4 routing
 route {{ INDIGOVR_SUBNET }} 255.255.0.0 {{ INDIGOVR_VPN_PREFIX }}.2
 
-push "route-gateway 192.168.255.1"
+push "route-gateway {{ INDIGOVR_VPN_PREFIX }}.1"
 push "route {{ INDIGOVR_SUBNET }} 255.255.0.0 vpn_gateway"
