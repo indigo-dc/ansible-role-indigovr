@@ -48,13 +48,6 @@
 - name: CSR
   include: openssl_csr.yml
 
-- name: Create CA certs dir
-  file:
-    path: "{{ INDIGOVR_CA_DIR }}/certs"
-    state: directory
-    recurse: yes
-  become: true
-
 - name: Copy CSR to CA
   copy:
     src: "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.csr"
