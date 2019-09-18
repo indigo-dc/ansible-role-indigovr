@@ -9,8 +9,10 @@ persist-tun
 comp-lzo
 verb 3
 mute 20
-mssfix 1400
-fragment 1400
+{% if INDIGOVR_MTU %}
+mssfix {{ INDIGOVR_MTU }}
+fragment {{ INDIGOVR_MTU }}
+{% endif %}
 ca {{ INDIGOVR_CERT_DIR }}/ca.crt
 cert {{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.crt
 key {{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.key
