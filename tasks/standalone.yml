@@ -21,6 +21,7 @@
     path: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
   register: certfile
   delegate_to: "{{ INDIGOVR_CENTRALPOINT_IP }}"
+  become: true
 
 - block:
   - name: Revoke previous certificate
