@@ -30,13 +30,15 @@
   - name: Revoke previous certificate
     command: openssl ca -config "{{ INDIGOVR_CA_DIR }}/openssl.cnf" -revoke "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
   - name: Delete previous certificate
-    command: rm -fv "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
+    file:
+      path: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
+      state: absent
   when: certfile.stat.exists and certfile.stat.mtime < csrfile.stat.mtime
   delegate_to: "{{ INDIGOVR_CENTRALPOINT_IP }}"
   become: true
 
 - name: Sign certificate
-  shell: openssl ca -config "{{ INDIGOVR_CA_DIR }}/openssl.cnf" -extensions usr_cert -notext -batch -in "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.csr" -out "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
+  command: openssl ca -config "{{ INDIGOVR_CA_DIR }}/openssl.cnf" -extensions usr_cert -notext -batch -in "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.csr" -out "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
   args:
     creates: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
   delegate_to: "{{ INDIGOVR_CENTRALPOINT_IP }}"

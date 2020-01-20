@@ -20,7 +20,7 @@
     - INDIGOVR_NODE_TYPE != "standalone"
 
 - name: Remove default route IndigoVR route
-  shell: "ip r del {{ INDIGOVR_SUBNET }}/16 via {{ ansible_default_ipv4.address }}"
+  command: "ip r del {{ INDIGOVR_SUBNET }}/16 via {{ ansible_default_ipv4.address }}"
   register: route_result
   changed_when: route_result.rc == 0
   failed_when: route_result.rc != 0 and route_result.rc != 2
