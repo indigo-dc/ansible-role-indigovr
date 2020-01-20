@@ -5,6 +5,12 @@
 - name: Remote sign
   include: openssl_remote_sign.yml
 
+- name: Wait until the directory /etc/openvpn/ccd is created in the centralpoint node
+  wait_for:
+    path: /etc/openvpn/ccd
+  delegate_to: "{{ INDIGOVR_CENTRALPOINT_IP }}"
+  become: true
+
 - name: Create client configuration
   template:
     src: ccd-standalone.j2
