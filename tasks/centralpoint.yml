@@ -7,7 +7,7 @@
   args:
     creates: "{{ INDIGOVR_CERT_DIR }}/dh2048.pem"
   notify:
-    -  Enable and start OpenVPN service
+    - Enable and start OpenVPN service
 
 - name: Fix permissions to Diffie-Hellman parameters
   file:
@@ -23,7 +23,7 @@
     mode: 0644
     remote_src: yes
   notify:
-    -  Enable and start OpenVPN service
+    - Enable and start OpenVPN service
 
 - name: Copy CA certificate to OpenVPN
   copy:
@@ -33,7 +33,7 @@
     mode: 0644
     remote_src: yes
   notify:
-    -  Enable and start OpenVPN service
+    - Enable and start OpenVPN service
 
 - name: Create client configuration directory
   file:
@@ -43,7 +43,7 @@
     owner: root
     group: "{{ INDIGOVR_USER }}"
   notify:
-    -  Enable and start OpenVPN service
+    - Enable and start OpenVPN service
 
 - name: CSR
   include: openssl_csr.yml
@@ -67,5 +67,4 @@
     mode: 0644
     remote_src: yes
   notify:
-    -  Enable and start OpenVPN service
-
+    - Enable and start OpenVPN service
