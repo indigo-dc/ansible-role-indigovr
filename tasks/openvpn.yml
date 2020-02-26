@@ -9,6 +9,7 @@
   user:
     name: "{{ INDIGOVR_USER }}"
     state: present
+    create_home: no
 
 - name: Enable IP forwarding
   sysctl:
