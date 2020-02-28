@@ -1,0 +1,45 @@
+- name: Fetch CSR
+  fetch:
+    src: "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.csr"
+    dest: "/tmp/._indigovr_tmp_{{ INDIGOVR_CERT_NAME }}.csr"
+    flat: yes
+    fail_on_missing: yes
+
+- name: Copy CSR to CA
+  copy:
+    src: "/tmp/._indigovr_tmp_{{ INDIGOVR_CERT_NAME }}.csr"
+    dest: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.csr"
+  delegate_to: "{{ INDIGOVR_CENTRALPOINT_IP }}"
+  become: true
+
+- name: Check certfile stat
+  stat:
+    path: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
+  register: certfile
+  delegate_to: "{{ INDIGOVR_CENTRALPOINT_IP }}"
+  become: true
+
+- name: Check csr stat
+  stat:
+    path: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.csr"
+  register: csrfile
+  delegate_to: "{{ INDIGOVR_CENTRALPOINT_IP }}"
+  become: true
+
+- block:
+  - name: Revoke previous certificate
+    command: openssl ca -config "{{ INDIGOVR_CA_DIR }}/openssl.cnf" -revoke "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
+  - name: Delete previous certificate
+    file:
+      path: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
+      state: absent
+  when: certfile.stat.exists and certfile.stat.mtime < csrfile.stat.mtime
+  delegate_to: "{{ INDIGOVR_CENTRALPOINT_IP }}"
+  become: true
+
+- name: Sign certificate
+  command: openssl ca -config "{{ INDIGOVR_CA_DIR }}/openssl.cnf" -extensions usr_cert -notext -batch -in "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.csr" -out "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
+  args:
+    creates: "{{ INDIGOVR_CA_DIR }}/certs/{{ INDIGOVR_CERT_NAME }}.crt"
+  delegate_to: "{{ INDIGOVR_CENTRALPOINT_IP }}"
+  become: true

@@ -14,8 +14,10 @@ topology p2p
 proto udp
 port 1194
 comp-lzo
-mssfix 1400
-fragment 1400
+{% if INDIGOVR_MTU %}
+mssfix {{ INDIGOVR_MTU }}
+fragment {{ INDIGOVR_MTU }}
+{% endif %}
 
 # --- IP addresses for VPN
 server {{ INDIGOVR_VPN_PREFIX }}.0 255.255.255.0

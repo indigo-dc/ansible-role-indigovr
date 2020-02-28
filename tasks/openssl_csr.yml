@@ -1,5 +1,5 @@
 - name: Create private key
-  shell: openssl genrsa -out "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.key" 4096
+  command: openssl genrsa -out "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.key" 4096
   args:
     creates: "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.key"
 
@@ -18,8 +18,7 @@
     group: root
     mode: 0600
 
-- name:  Create CSR
-  shell: openssl req -config "{{ INDIGOVR_CERT_DIR }}/openssl.cnf" -key "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.key" -new -out "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.csr"
+- name: Create CSR
+  command: openssl req -config "{{ INDIGOVR_CERT_DIR }}/openssl.cnf" -key "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.key" -new -out "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.csr"
   args:
     creates: "{{ INDIGOVR_CERT_DIR }}/{{ INDIGOVR_CERT_NAME }}.csr"
-

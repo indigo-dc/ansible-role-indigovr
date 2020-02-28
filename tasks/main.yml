@@ -6,8 +6,8 @@
 - name: Include OpenVPN recipes
   include: openvpn.yml
 
-- name: Include "{{INDIGOVR_NODE_TYPE}}" recipe
-  include: "{{INDIGOVR_NODE_TYPE}}.yml"
+- name: Include "{{ INDIGOVR_NODE_TYPE }}" recipe
+  include: "{{ INDIGOVR_NODE_TYPE }}.yml"
 
 - name: Enable and start OpenVPN service
   service:
