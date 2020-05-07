@@ -16,6 +16,9 @@ env:
 before_install:
   # Pull container.
   - 'docker pull grycap/travis:${distro}'
+  - pip install docker-py
+  - pip install molecule
+  - molecule lint
 
 script:
   - container_id=$(mktemp)
